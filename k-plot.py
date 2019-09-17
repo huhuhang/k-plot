@@ -43,6 +43,8 @@ if __name__ == "__main__":
     # 绘制 k 值分布图
     X, Y = np.meshgrid([x for x in range(len(df_k.columns))], [y for y in range(len(df_k))])
     Z = df_k.values
+    plt.figure()
     ax = plt.axes(projection='3d')
     ax.plot_surface(X, Y, Z, cmap='winter')
+    plt.savefig("Figure.svg")
     plt.show()
