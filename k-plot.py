@@ -35,6 +35,8 @@ if __name__ == "__main__":
         for j in range(3, len(df_x.columns)-3):
             # 计算 k 并赋值于拓展矩阵
             df_k.iloc[i, j] = calculate_k(i, j)
+    # 切割拓展矩阵为原始矩阵大小
+    df_k = df_k.iloc[3:-3, 3:-3]
     # 保存 K 值数据文件
     df_k.to_csv("k_values.csv", index=None)
 
