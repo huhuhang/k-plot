@@ -29,19 +29,18 @@ if __name__ == "__main__":
     df_x = pd.DataFrame(np.pad(df_x_, ((3, 3), (3, 3)), 'constant'))
     df_y = pd.DataFrame(np.pad(df_y_, ((3, 3), (3, 3)), 'constant'))
 
-    df_k_ = df_x.copy()
+    df_k = df_x.copy()
     # 遍历原始数据坐标
-    for i in range(len(df_x_.index)):
-        for j in range(len(df_x_.columns)):
+    for i in range(3, len(df_x.index)-3):
+        for j in range(3, len(df_x.columns)-3):
             # 计算 k 并赋值于拓展矩阵
-            df_k_.iloc[i, j] = calculate_k(i, j)
-    # 切割拓展矩阵为原始矩阵大小
-    df_k = df_k_.iloc[3:-3, 3:-3]
+            df_k.iloc[i, j] = calculate_k(i, j)
     # 保存 K 值数据文件
     df_k.to_csv("k_values.csv", index=None)
 
     # 绘制 k 值分布图
-    X, Y = np.meshgrid([x for x in range(len(df_k.columns))], [y for y in range(len(df_k))])
+    X, Y = np.meshgrid([x for x in range(len(df_k.columns))],
+                       [y for y in range(len(df_k))])
     Z = df_k.values
     plt.figure()
     ax = plt.axes(projection='3d')
