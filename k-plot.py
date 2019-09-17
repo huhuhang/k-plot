@@ -19,7 +19,12 @@ if __name__ == "__main__":
     # 读取原始数据矩阵
     df_x_ = pd.read_excel("x-displacement.xlsx", header=None)
     df_y_ = pd.read_excel("y-displacement.xlsx", header=None)
-    print(f"读取到形状为 {df_x_.shape} 的数据矩阵")
+    # 检查文件尺寸
+    try:
+        df_x_.shape == df_y_.shape
+        print(f"读取到形状为 {df_x_.shape} 的数据矩阵")
+    except:
+        print("位移数据尺寸不匹配")
     # 方便计算将原始矩阵向 4 个方向拓展 3 个 0 单位
     df_x = pd.DataFrame(np.pad(df_x_, ((3, 3), (3, 3)), 'constant'))
     df_y = pd.DataFrame(np.pad(df_y_, ((3, 3), (3, 3)), 'constant'))
@@ -30,9 +35,10 @@ if __name__ == "__main__":
         for j in range(len(df_x_.columns)):
             # 计算 k 并赋值于拓展矩阵
             df_k_.iloc[i, j] = calculate_k(i, j)
-            # 切割拓展矩阵为原始矩阵大小
-            df_k = df_k_.iloc[3:-3, 3:-3]
-    df_k.to_csv("k_values.csv", index=None)  # 保存 K 值数据文件
+    # 切割拓展矩阵为原始矩阵大小
+    df_k = df_k_.iloc[3:-3, 3:-3]
+    # 保存 K 值数据文件
+    df_k.to_csv("k_values.csv", index=None)
 
     # 绘制 k 值分布图
     X, Y = np.meshgrid([x for x in range(len(df_k.columns))], [y for y in range(len(df_k))])
