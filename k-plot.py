@@ -44,8 +44,9 @@ if __name__ == "__main__":
     X, Y = np.meshgrid([x for x in range(len(df_k.columns))],
                        [y for y in range(len(df_k))])
     Z = df_k.values
-    plt.figure()
+    fig = plt.figure()
     ax = plt.axes(projection='3d')
-    ax.plot_surface(X, Y, Z, cmap='winter')
+    surf = ax.plot_surface(X, Y, Z, cmap='coolwarm')
+    fig.colorbar(surf, shrink=0.5, aspect=5)
     plt.savefig("Figure.svg")
     plt.show()
